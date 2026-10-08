@@ -8,6 +8,7 @@ import { AuthProtected } from '@/components/AuthProtected';
 import { useAuth } from '@/context/AuthContext';
 import { userApi } from '@/lib/api';
 import { sfx } from '@/lib/sfx';
+import { BannerCropperModal } from '@/components/BannerCropperModal';
 
 const AVATAR_PRESETS = [
   {
@@ -95,6 +96,15 @@ const BANNER_PRESETS = [
   },
 ];
 
+const BANNER_FILTERS: Record<string, { id: string; name: string; filterStyle: string }> = {
+  none: { id: 'none', name: 'Vivid Original', filterStyle: 'none' },
+  dark: { id: 'dark', name: 'Dark Citadel Shadow', filterStyle: 'contrast(125%) brightness(70%)' },
+  golden: { id: 'golden', name: 'Golden Sunburst', filterStyle: 'sepia(35%) saturate(160%) hue-rotate(-15deg)' },
+  dramatic: { id: 'dramatic', name: 'Warfront Intensity', filterStyle: 'contrast(140%) saturate(140%)' },
+  sepia: { id: 'sepia', name: 'Ancient Scroll', filterStyle: 'sepia(70%) contrast(110%)' },
+  blur: { id: 'blur', name: 'Mystic Fog', filterStyle: 'blur(3px) brightness(90%)' },
+};
+
 export default function SettingsPage() {
   const router = useRouter();
   const { user, updateUser, logout } = useAuth();
@@ -110,6 +120,17 @@ export default function SettingsPage() {
   const [selectedBanner, setSelectedBanner] = useState('arena');
   const [tempBanner, setTempBanner] = useState('arena');
 
+  const [bannerUrl, setBannerUrl] = useState('');
+  const [tempBannerUrl, setTempBannerUrl] = useState('');
+  const [bannerTitle, setBannerTitle] = useState('');
+  const [tempBannerTitle, setTempBannerTitle] = useState('');
+  const [bannerFilter, setBannerFilter] = useState('none');
+  const [tempBannerFilter, setTempBannerFilter] = useState('none');
+  const [bannerModalTab, setBannerModalTab] = useState<'preset' | 'edit'>('preset');
+
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [cropperImageSrc, setCropperImageSrc] = useState('');
+
   const [activeEditRow, setActiveEditRow] = useState<'name' | 'username' | 'creed' | null>(null);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
@@ -124,6 +145,11 @@ export default function SettingsPage() {
       setDisplayName(user.username || 'Shahnawaz');
       setUsername(user.username || 'warrior_x');
       setCreed(user.description || 'Building. Fighting. Coding. Defending the Northern Citadel with valkyrie strikes and socket streams.');
+      if (user.avatar) setSelectedAvatar(user.avatar);
+      if (user.bannerPattern) setSelectedBanner(user.bannerPattern);
+      if (user.bannerUrl !== undefined) setBannerUrl(user.bannerUrl);
+      if (user.bannerTitle !== undefined) setBannerTitle(user.bannerTitle);
+      if (user.bannerFilter !== undefined) setBannerFilter(user.bannerFilter);
     }
   }, [user]);
 
@@ -142,6 +168,9 @@ export default function SettingsPage() {
 
   const currentAvatarObj = AVATAR_PRESETS.find((a) => a.id === selectedAvatar) || AVATAR_PRESETS[0];
   const currentBannerObj = BANNER_PRESETS.find((b) => b.id === selectedBanner) || BANNER_PRESETS[0];
+
+  const activeBannerImgUrl = bannerUrl || currentBannerObj.img;
+  const activeBannerFilterStyle = BANNER_FILTERS[bannerFilter]?.filterStyle || 'none';
 
   const handleSaveProfile = async (field: 'name' | 'username' | 'creed', value: string) => {
     try {
@@ -168,11 +197,46 @@ export default function SettingsPage() {
     showToast('Hero Avatar Updated!');
   };
 
-  const confirmBannerSelection = () => {
-    sfx.playClanReward();
-    setSelectedBanner(tempBanner);
-    setIsBannerModalOpen(false);
-    showToast('War Banner Canvas Applied!');
+  const confirmBannerSelection = async () => {
+    try {
+      sfx.playClanReward();
+      const updated = await userApi.updateProfile({
+        bannerPattern: tempBanner,
+        bannerUrl: tempBannerUrl,
+        bannerTitle: tempBannerTitle,
+        bannerFilter: tempBannerFilter,
+      });
+      updateUser(updated);
+      setSelectedBanner(tempBanner);
+      setBannerUrl(tempBannerUrl);
+      setBannerTitle(tempBannerTitle);
+      setBannerFilter(tempBannerFilter);
+      setIsBannerModalOpen(false);
+      showToast('War Banner Canvas & Customizations Applied!');
+    } catch (err: any) {
+      sfx.playError();
+      showToast(`Failed to apply banner: ${err.message || 'Error'}`);
+    }
+  };
+
+  const handleBannerFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 8 * 1024 * 1024) {
+        showToast('Image size must be under 8MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const rawUrl = event.target.result as string;
+          setCropperImageSrc(rawUrl);
+          setIsCropperOpen(true);
+          showToast('Image loaded! Crop & position your war banner.');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -284,25 +348,43 @@ export default function SettingsPage() {
                 {/* Panoramic Battle Banner */}
                 <div className="relative w-full h-64 md:h-80 lg:h-96 bg-[#EFE0CE] overflow-hidden group">
                   <img
-                    src={currentBannerObj.img}
+                    src={activeBannerImgUrl}
                     alt={currentBannerObj.name}
+                    style={{ filter: activeBannerFilterStyle }}
                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
 
-                  <button
-                    onClick={() => {
-                      sfx.playClick();
-                      setTempBanner(selectedBanner);
-                      setIsBannerModalOpen(true);
-                    }}
-                    className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FFFDF9]/90 backdrop-blur-md text-[#3E2415] border border-[#CDB194] font-label-sm text-xs uppercase tracking-wider hover:bg-[#FFFFFF] transition-all shadow-md font-black cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[#895333] text-base">photo_camera</span>
-                    <span>Change War Banner</span>
-                  </button>
+                  {bannerTitle && (
+                    <div className="absolute bottom-6 left-6 right-6 md:left-8 md:bottom-8 z-10 flex items-center pointer-events-none">
+                      <div className="px-4 py-2 rounded-2xl bg-[#2B180D]/85 backdrop-blur-md border-2 border-[#C89437] shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center gap-2.5">
+                        <span className="material-symbols-outlined text-[#FBD46E] text-xl font-black">shield</span>
+                        <span className="font-headline-sm text-sm md:text-base text-[#FBD46E] uppercase font-black tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                          {bannerTitle}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
-                  <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2B180D]/85 backdrop-blur-md border border-[#C89437]/60">
+                  <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+                    <button
+                      onClick={() => {
+                        sfx.playClick();
+                        setTempBanner(selectedBanner);
+                        setTempBannerUrl(bannerUrl);
+                        setTempBannerTitle(bannerTitle);
+                        setTempBannerFilter(bannerFilter);
+                        setBannerModalTab('preset');
+                        setIsBannerModalOpen(true);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FFFDF9]/90 backdrop-blur-md text-[#3E2415] border border-[#CDB194] font-label-sm text-xs uppercase tracking-wider hover:bg-[#FFFFFF] transition-all shadow-md font-black cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[#895333] text-base">photo_camera</span>
+                      <span>Change War Banner</span>
+                    </button>
+                  </div>
+
+                  <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2B180D]/85 backdrop-blur-md border border-[#C89437]/60 z-10">
                     <span className="material-symbols-outlined text-[#FBD46E] text-sm">shield</span>
                     <span className="font-label-sm text-xs text-[#FFF3E3] uppercase tracking-wider font-extrabold">Titan League I</span>
                   </div>
@@ -595,28 +677,35 @@ export default function SettingsPage() {
 
                       {/* Banner Picker Box */}
                       <div className="p-3.5 rounded-xl bg-[#FAF5ED] border border-[#E7D6C3] flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-14 h-9 rounded-lg overflow-hidden bg-[#EFE0CE] border border-[#D4A359]">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-14 h-9 rounded-lg overflow-hidden bg-[#EFE0CE] border border-[#D4A359] relative flex-shrink-0">
                             <img
-                              src={currentBannerObj.img}
+                              src={activeBannerImgUrl}
                               alt={currentBannerObj.name}
+                              style={{ filter: activeBannerFilterStyle }}
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div>
+                          <div className="min-w-0">
                             <span className="font-label-sm text-[10px] text-[#8A6348] uppercase font-bold">War Canvas</span>
-                            <div className="font-label-md text-xs text-[#24140D] font-black">{currentBannerObj.name}</div>
+                            <div className="font-label-md text-xs text-[#24140D] font-black truncate">
+                              {bannerTitle ? `${currentBannerObj.name} • "${bannerTitle}"` : currentBannerObj.name}
+                            </div>
                           </div>
                         </div>
                         <button
                           onClick={() => {
                             sfx.playClick();
                             setTempBanner(selectedBanner);
+                            setTempBannerUrl(bannerUrl);
+                            setTempBannerTitle(bannerTitle);
+                            setTempBannerFilter(bannerFilter);
+                            setBannerModalTab('preset');
                             setIsBannerModalOpen(true);
                           }}
                           className="px-3.5 py-1.5 rounded-xl bg-gradient-to-b from-[#FFFFFF] to-[#F4E8D8] border border-[#CDB194] border-b-2 border-b-[#987654] hover:bg-[#FFF9EE] text-[#5C381E] font-label-md text-xs uppercase tracking-wider font-black shadow-sm active:translate-y-0.5 cursor-pointer"
                         >
-                          Select
+                          Change
                         </button>
                       </div>
 
@@ -748,64 +837,249 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* MODAL 2: SELECT COVER BANNER */}
+        {/* MODAL 2: SELECT & EDIT COVER BANNER */}
         {isBannerModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 animate-fadeIn">
             <div className="w-full max-w-2xl bg-[#FFFDF9] rounded-3xl shadow-[0_16px_50px_rgba(89,53,28,0.3)] overflow-hidden flex flex-col border-4 border-[#C89437]">
-              <div className="px-6 py-4 bg-[#FAF5ED] flex items-center justify-between border-b-2 border-[#895333]">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#895333] text-xl">wallpaper</span>
-                  <h3 className="font-headline-sm text-base text-[#3E2415] uppercase font-black">Choose Battlefield Banner</h3>
+              {/* Header with Mode Tabs */}
+              <div className="px-6 py-4 bg-[#FAF5ED] border-b-2 border-[#895333]">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#895333] text-xl">wallpaper</span>
+                    <h3 className="font-headline-sm text-base text-[#3E2415] uppercase font-black">War Banner Studio</h3>
+                  </div>
+                  <button
+                    onClick={() => setIsBannerModalOpen(false)}
+                    className="w-8 h-8 rounded-lg bg-[#EFE0CE] hover:bg-[#E5D2BC] flex items-center justify-center text-[#5C381E] cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-base">close</span>
+                  </button>
                 </div>
-                <button
-                  onClick={() => setIsBannerModalOpen(false)}
-                  className="w-8 h-8 rounded-lg bg-[#EFE0CE] hover:bg-[#E5D2BC] flex items-center justify-center text-[#5C381E] cursor-pointer"
-                >
-                  <span className="material-symbols-outlined text-base">close</span>
-                </button>
+
+                {/* Tabs */}
+                <div className="flex items-center gap-2 mt-3 p-1 rounded-xl bg-[#EFE0CE] border border-[#D8C2AA]">
+                  <button
+                    type="button"
+                    onClick={() => { sfx.playClick(); setBannerModalTab('preset'); }}
+                    className={`flex-1 py-1.5 px-3 rounded-lg font-label-md text-xs uppercase font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${bannerModalTab === 'preset'
+                        ? 'bg-[#FFFDF9] text-[#3E2415] shadow-sm border border-[#C89437]'
+                        : 'text-[#7D583F] hover:text-[#3E2415]'
+                      }`}
+                  >
+                    <span className="material-symbols-outlined text-sm">photo_library</span>
+                    <span>Scenic Presets</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { sfx.playClick(); setBannerModalTab('edit'); }}
+                    className={`flex-1 py-1.5 px-3 rounded-lg font-label-md text-xs uppercase font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${bannerModalTab === 'edit'
+                        ? 'bg-[#FCE182] text-[#412708] shadow-sm border border-[#A8740B]'
+                        : 'text-[#7D583F] hover:text-[#3E2415]'
+                      }`}
+                  >
+                    <span className="material-symbols-outlined text-sm">edit</span>
+                    <span>Edit Banner Options</span>
+                  </button>
+                </div>
               </div>
 
+              {/* Body Content */}
               <div className="p-6 flex flex-col gap-4 max-h-[70vh] overflow-y-auto bg-[#FAF3E8]">
-                <p className="font-body-sm text-xs text-[#6E4C38]">
-                  Select a legendary scenic banner to display atop your war codex.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {BANNER_PRESETS.map((bn) => (
-                    <div
-                      key={bn.id}
+
+                {/* Live Banner Preview Block */}
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-label-sm text-[11px] text-[#895333] uppercase font-black">Live Banner Preview</span>
+                    <button
+                      type="button"
                       onClick={() => {
                         sfx.playClick();
-                        setTempBanner(bn.id);
+                        const currentImg = tempBannerUrl || (BANNER_PRESETS.find(b => b.id === tempBanner)?.img || BANNER_PRESETS[0].img);
+                        setCropperImageSrc(currentImg);
+                        setIsCropperOpen(true);
                       }}
-                      className={`cursor-pointer flex flex-col gap-2 p-2.5 rounded-2xl bg-[#FFFDF9] hover:bg-[#FFF9EE] transition-all border-2 ${tempBanner === bn.id ? 'border-[#C89437] ring-2 ring-[#F5B823] scale-105' : 'border-[#E7D6C3]'
-                        }`}
+                      className="px-3 py-1 rounded-xl bg-gradient-to-b from-[#FCE182] to-[#E9AE26] text-[#412708] border border-[#A8740B] font-label-md text-xs uppercase font-black shadow-xs hover:brightness-105 transition-all cursor-pointer flex items-center gap-1"
                     >
-                      <div className="w-full h-28 rounded-lg overflow-hidden bg-[#EFE0CE]">
-                        <img src={bn.img} alt={bn.name} className="w-full h-full object-cover" />
+                      <span className="material-symbols-outlined text-sm">crop</span>
+                      <span>Crop & Position (4:1)</span>
+                    </button>
+                  </div>
+                  <div className="relative w-full h-36 sm:h-44 rounded-2xl overflow-hidden bg-[#EFE0CE] border-2 border-[#C89437] shadow-inner">
+                    <img
+                      src={tempBannerUrl || (BANNER_PRESETS.find(b => b.id === tempBanner)?.img || BANNER_PRESETS[0].img)}
+                      alt="Banner Preview"
+                      style={{ filter: BANNER_FILTERS[tempBannerFilter]?.filterStyle || 'none' }}
+                      className="w-full h-full object-cover object-center transition-all"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
+
+                    {tempBannerTitle && (
+                      <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center pointer-events-none">
+                        <div className="px-3 py-1.5 rounded-xl bg-[#2B180D]/85 backdrop-blur-md border border-[#C89437] flex items-center gap-2">
+                          <span className="material-symbols-outlined text-[#FBD46E] text-base font-black">shield</span>
+                          <span className="font-headline-sm text-xs sm:text-sm text-[#FBD46E] uppercase font-black tracking-wider drop-shadow-md">
+                            {tempBannerTitle}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex justify-between items-center px-1">
-                        <span className="font-label-sm text-xs text-[#3E2415] uppercase font-bold">{bn.name}</span>
-                        {selectedBanner === bn.id && (
-                          <span className="text-xs text-[#895333] font-bold">Active</span>
+                    )}
+                  </div>
+                </div>
+
+                {bannerModalTab === 'preset' ? (
+                  <>
+                    <p className="font-body-sm text-xs text-[#6E4C38]">
+                      Select a legendary scenic banner preset to display atop your war codex:
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {BANNER_PRESETS.map((bn) => (
+                        <div
+                          key={bn.id}
+                          onClick={() => {
+                            sfx.playClick();
+                            setTempBanner(bn.id);
+                          }}
+                          className={`cursor-pointer flex flex-col gap-2 p-2.5 rounded-2xl bg-[#FFFDF9] hover:bg-[#FFF9EE] transition-all border-2 ${tempBanner === bn.id ? 'border-[#C89437] ring-2 ring-[#F5B823] scale-105' : 'border-[#E7D6C3]'
+                            }`}
+                        >
+                          <div className="w-full h-24 rounded-lg overflow-hidden bg-[#EFE0CE]">
+                            <img src={bn.img} alt={bn.name} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex justify-between items-center px-1">
+                            <span className="font-label-sm text-xs text-[#3E2415] uppercase font-bold">{bn.name}</span>
+                            {selectedBanner === bn.id && (
+                              <span className="text-xs text-[#895333] font-bold">Active</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="pt-2 flex justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setBannerModalTab('edit')}
+                        className="px-4 py-2 rounded-xl bg-[#EFE0CE] hover:bg-[#E5D2BC] text-[#5C381E] font-label-md text-xs uppercase font-bold flex items-center gap-1.5 transition-colors cursor-pointer border border-[#CDB194]"
+                      >
+                        <span className="material-symbols-outlined text-sm">tune</span>
+                        <span>Customize Banner Title, Image & Filters</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  /* EDIT BANNER CUSTOMIZATION TAB */
+                  <div className="flex flex-col gap-5">
+
+                    {/* 1. Image Source & Upload */}
+                    <div className="flex flex-col gap-2 p-3.5 rounded-2xl bg-[#FFFDF9] border border-[#E7D6C3]">
+                      <label className="font-label-sm text-xs text-[#5B3317] uppercase font-black flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-sm text-[#895333]">add_photo_alternate</span>
+                        <span>Custom Banner Image Source</span>
+                      </label>
+
+                      <div className="flex flex-col sm:flex-row gap-2 items-center">
+                        <label className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-b from-[#F5B823] to-[#B28212] text-[#3E2207] font-headline-sm text-xs font-black uppercase shadow-sm hover:brightness-105 active:translate-y-0.5 transition-all cursor-pointer flex items-center justify-center gap-2 shrink-0">
+                          <span className="material-symbols-outlined text-sm">upload_file</span>
+                          <span>Upload Image File</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleBannerFileUpload}
+                            className="hidden"
+                          />
+                        </label>
+
+                        <input
+                          type="url"
+                          value={tempBannerUrl}
+                          onChange={(e) => setTempBannerUrl(e.target.value)}
+                          placeholder="Or paste custom banner image URL (https://...)"
+                          className="w-full bg-[#FFFDF6] border border-[#CDB194] rounded-xl px-3 py-2 font-body-sm text-xs text-[#24140D] focus:outline-none focus:border-[#C88421]"
+                        />
+
+                        {tempBannerUrl && (
+                          <button
+                            type="button"
+                            onClick={() => { setTempBannerUrl(''); showToast('Reset to default preset image'); }}
+                            className="px-3 py-2 rounded-xl bg-[#FEECEC] text-[#B71C1C] hover:bg-[#FCD8D8] font-label-sm text-xs font-bold shrink-0 cursor-pointer"
+                          >
+                            Reset
+                          </button>
                         )}
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* 2. Custom Banner Title Overlay */}
+                    <div className="flex flex-col gap-1.5 p-3.5 rounded-2xl bg-[#FFFDF9] border border-[#E7D6C3]">
+                      <label className="font-label-sm text-xs text-[#5B3317] uppercase font-black flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-sm text-[#895333]">title</span>
+                        <span>Banner Title & War Slogan Overlay</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={tempBannerTitle}
+                        onChange={(e) => setTempBannerTitle(e.target.value)}
+                        placeholder="e.g. VALKYRIE CITADEL / UNSTOPPABLE WARRIORS"
+                        maxLength={40}
+                        className="w-full bg-[#FFFDF6] border border-[#CDB194] rounded-xl px-3 py-2 font-body-sm text-xs text-[#24140D] focus:outline-none focus:border-[#C88421] font-bold"
+                      />
+                      <span className="font-label-sm text-[10px] text-[#8A6348]">
+                        Adds a golden heraldic badge overlay to your war banner display.
+                      </span>
+                    </div>
+
+                    {/* 3. Banner Filters & Visual Effects */}
+                    <div className="flex flex-col gap-2 p-3.5 rounded-2xl bg-[#FFFDF9] border border-[#E7D6C3]">
+                      <label className="font-label-sm text-xs text-[#5B3317] uppercase font-black flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-sm text-[#895333]">auto_fix_high</span>
+                        <span>Select Banner Filter Effect</span>
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {Object.values(BANNER_FILTERS).map((flt) => {
+                          const isSelected = tempBannerFilter === flt.id;
+                          return (
+                            <button
+                              key={flt.id}
+                              type="button"
+                              onClick={() => {
+                                sfx.playClick();
+                                setTempBannerFilter(flt.id);
+                              }}
+                              className={`p-2.5 rounded-xl border transition-all text-left cursor-pointer flex items-center justify-between ${isSelected
+                                  ? 'bg-[#FFF2D7] border-[#C89437] ring-1 ring-[#F5B823] text-[#3E2415]'
+                                  : 'bg-[#FAF5ED] border-[#E5D2BF] text-[#6E4C38] hover:bg-[#FFFDF9]'
+                                }`}
+                            >
+                              <span className="font-label-sm text-xs font-bold">{flt.name}</span>
+                              {isSelected && (
+                                <span className="material-symbols-outlined text-sm text-[#C89437]">check_circle</span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                  </div>
+                )}
               </div>
 
+              {/* Footer */}
               <div className="px-6 py-4 bg-[#FAF5ED] flex items-center justify-end gap-3 border-t-2 border-[#895333]">
                 <button
+                  type="button"
                   onClick={() => setIsBannerModalOpen(false)}
                   className="px-4 py-2 rounded-lg text-[#6E4C38] hover:text-[#24140D] font-label-md text-xs uppercase font-bold"
                 >
                   Cancel
                 </button>
                 <button
+                  type="button"
                   onClick={confirmBannerSelection}
-                  className="px-5 py-2 rounded-xl bg-gradient-to-b from-[#FCE182] to-[#E9AE26] text-[#412708] border-b-2 border-[#A8740B] font-label-md text-xs uppercase shadow-sm active:translate-y-0.5 font-black cursor-pointer"
+                  className="px-6 py-2 rounded-xl bg-gradient-to-b from-[#FCE182] to-[#E9AE26] text-[#412708] border-b-2 border-[#A8740B] font-label-md text-xs uppercase shadow-sm active:translate-y-0.5 font-black cursor-pointer flex items-center gap-1.5"
                 >
-                  Apply War Banner
+                  <span className="material-symbols-outlined text-sm">check</span>
+                  <span>Apply War Banner & Edits</span>
                 </button>
               </div>
             </div>
@@ -876,6 +1150,18 @@ export default function SettingsPage() {
             </div>
           </div>
         )}
+
+        {/* MODAL 4: INTERACTIVE BANNER CROIPPER (4:1 RATIO) */}
+        <BannerCropperModal
+          isOpen={isCropperOpen}
+          imageSrc={cropperImageSrc}
+          onClose={() => setIsCropperOpen(false)}
+          onSave={(croppedUrl) => {
+            setTempBannerUrl(croppedUrl);
+            setIsCropperOpen(false);
+            showToast('War banner cropped and positioned successfully!');
+          }}
+        />
 
         {/* Toast Notification Pill */}
         {toastMessage && (

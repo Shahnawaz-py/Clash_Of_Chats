@@ -14,7 +14,11 @@ export interface UserProfile {
   role: string;
   isOnline: boolean;
   bannerPattern?: string;
+  bannerUrl?: string;
+  bannerTitle?: string;
+  bannerFilter?: string;
   description?: string;
+  tag?: string;
   token?: string;
   isGroup?: boolean;
   clan?: any;

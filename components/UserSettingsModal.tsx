@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { userApi } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { sfx } from '@/lib/sfx';
+import { BannerCropperModal } from '@/components/BannerCropperModal';
 
 interface UserSettingsModalProps {
   isOpen: boolean;
@@ -35,7 +36,14 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
   const [avatar, setAvatar] = useState('Chieftain');
   const [avatarName, setAvatarName] = useState('Barbarian Chieftain');
   const [bannerPattern, setBannerPattern] = useState('crimson-fire');
+  const [bannerUrl, setBannerUrl] = useState('');
+  const [bannerTitle, setBannerTitle] = useState('');
+  const [bannerFilter, setBannerFilter] = useState('none');
+  const [showEditBannerOptions, setShowEditBannerOptions] = useState(false);
   const [description, setDescription] = useState('');
+
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [cropperImageSrc, setCropperImageSrc] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -46,11 +54,34 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
       setAvatar(user.avatar || 'Chieftain');
       setAvatarName(user.avatarName || 'Barbarian Chieftain');
       setBannerPattern(user.bannerPattern || 'crimson-fire');
+      setBannerUrl(user.bannerUrl || '');
+      setBannerTitle(user.bannerTitle || '');
+      setBannerFilter(user.bannerFilter || 'none');
       setDescription(user.description || 'Fearless Clash warrior ready for battle.');
     }
   }, [user, isOpen]);
 
   if (!isOpen) return null;
+
+  const handleBannerFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 8 * 1024 * 1024) {
+        setStatusMessage('⚠️ Image file size must be less than 8MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const rawUrl = event.target.result as string;
+          setCropperImageSrc(rawUrl);
+          setIsCropperOpen(true);
+          setStatusMessage('📸 Image loaded! Crop & position your war banner.');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,12 +96,15 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         avatar,
         avatarName,
         bannerPattern,
+        bannerUrl,
+        bannerTitle,
+        bannerFilter,
         description: description.trim(),
       });
 
       updateUser(updatedData);
       sfx.playClanReward();
-      setStatusMessage('⚔️ Warrior Profile Updated Successfully!');
+      setStatusMessage('⚔️ Warrior Profile & Banner Updated Successfully!');
 
       setTimeout(() => {
         onClose();
@@ -87,7 +121,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fadeIn">
       <div className="w-full max-w-2xl bg-[#FFFDF9] border-4 border-[#C89437] rounded-3xl overflow-hidden flex flex-col shadow-[0_16px_50px_rgba(0,0,0,0.6)]">
-        
+
         {/* Header Banner */}
         <div className="bg-[#3C2314] px-6 py-4 border-b-4 border-[#C89437] flex items-center justify-between text-white">
           <div className="flex items-center gap-3">
@@ -154,11 +188,10 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                       setAvatar(opt.id);
                       setAvatarName(opt.name);
                     }}
-                    className={`p-3 rounded-2xl border-2 transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
-                      isSelected
+                    className={`p-3 rounded-2xl border-2 transition-all flex flex-col items-center gap-1.5 cursor-pointer ${isSelected
                         ? 'bg-gradient-to-b from-[#FFF2D7] to-[#F5DDB3] border-[#C88421] shadow-[0_4px_12px_rgba(150,90,30,0.3)] scale-105'
                         : 'bg-[#FFFDF6] border-[#D8C7B5] hover:border-[#C88421] text-[#895333]'
-                    }`}
+                      }`}
                   >
                     <div className="w-10 h-10 rounded-xl bg-[#3C2314] text-[#FBD46E] flex items-center justify-center">
                       <span className="material-symbols-outlined text-2xl">{opt.icon}</span>
@@ -188,9 +221,8 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                       sfx.playClick();
                       setBannerPattern(bp.id);
                     }}
-                    className={`h-12 rounded-xl ${bp.class} p-2 flex items-center justify-center border-2 transition-all cursor-pointer ${
-                      isSelected ? 'border-[#F5B823] ring-2 ring-[#F5B823] scale-105 shadow-md' : 'border-transparent opacity-80 hover:opacity-100'
-                    }`}
+                    className={`h-12 rounded-xl ${bp.class} p-2 flex items-center justify-center border-2 transition-all cursor-pointer ${isSelected ? 'border-[#F5B823] ring-2 ring-[#F5B823] scale-105 shadow-md' : 'border-transparent opacity-80 hover:opacity-100'
+                      }`}
                   >
                     <span className="font-label-sm text-xs text-white uppercase font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                       {bp.name}
@@ -199,6 +231,104 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                 );
               })}
             </div>
+          </div>
+
+          {/* Custom Banner Edit Panel Toggle & Controls */}
+          <div className="p-3.5 rounded-2xl bg-[#FFFDF6] border-2 border-[#C89437] flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#895333] text-lg">wallpaper</span>
+                <span className="font-label-md text-xs text-[#5B3317] uppercase font-black">
+                  EDIT BANNER OPTIONS (CUSTOM IMAGE & OVERLAY)
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditBannerOptions(!showEditBannerOptions)}
+                className="px-3 py-1 rounded-lg bg-[#FAF5ED] border border-[#CDB194] text-[#5C381E] font-label-sm text-xs font-bold uppercase hover:bg-[#FFF2D7] cursor-pointer flex items-center gap-1"
+              >
+                <span className="material-symbols-outlined text-sm">{showEditBannerOptions ? 'expand_less' : 'tune'}</span>
+                <span>{showEditBannerOptions ? 'Hide' : 'Edit Banner'}</span>
+              </button>
+            </div>
+
+            {showEditBannerOptions && (
+              <div className="flex flex-col gap-3.5 pt-2 border-t border-[#E7D6C3] animate-fadeIn">
+                {/* Custom Image File or URL */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-sm text-[11px] text-[#895333] uppercase font-bold">
+                    Custom Banner Image File or URL
+                  </label>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <label className="px-3 py-1.5 rounded-xl bg-gradient-to-b from-[#F5B823] to-[#B28212] text-[#3E2207] font-headline-sm text-xs font-black uppercase cursor-pointer flex items-center justify-center gap-1.5 shrink-0">
+                      <span className="material-symbols-outlined text-sm">upload</span>
+                      <span>Upload</span>
+                      <input type="file" accept="image/*" onChange={handleBannerFileUpload} className="hidden" />
+                    </label>
+                    <input
+                      type="url"
+                      value={bannerUrl}
+                      onChange={(e) => setBannerUrl(e.target.value)}
+                      placeholder="Paste image URL..."
+                      className="w-full bg-[#FFF] border border-[#CDB194] rounded-xl px-3 py-1.5 font-body-sm text-xs text-[#24140D]"
+                    />
+                    {bannerUrl && (
+                      <button
+                        type="button"
+                        onClick={() => setBannerUrl('')}
+                        className="px-2.5 py-1 rounded-xl bg-[#FEECEC] text-[#B71C1C] text-xs font-bold shrink-0 cursor-pointer"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Banner Title Overlay */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-sm text-[11px] text-[#895333] uppercase font-bold">
+                    Banner Title / Slogan Overlay
+                  </label>
+                  <input
+                    type="text"
+                    value={bannerTitle}
+                    onChange={(e) => setBannerTitle(e.target.value)}
+                    placeholder="e.g. VALKYRIE CITADEL"
+                    maxLength={35}
+                    className="w-full bg-[#FFF] border border-[#CDB194] rounded-xl px-3 py-1.5 font-body-sm text-xs text-[#24140D] font-bold"
+                  />
+                </div>
+
+                {/* Banner Filter */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-sm text-[11px] text-[#895333] uppercase font-bold">
+                    Banner Filter Effect
+                  </label>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {[
+                      { id: 'none', label: 'Original' },
+                      { id: 'dark', label: 'Dark Shadow' },
+                      { id: 'golden', label: 'Golden Glow' },
+                      { id: 'dramatic', label: 'War Contrast' },
+                      { id: 'sepia', label: 'Ancient' },
+                      { id: 'blur', label: 'Fog' },
+                    ].map((f) => (
+                      <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => setBannerFilter(f.id)}
+                        className={`py-1 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${bannerFilter === f.id
+                            ? 'bg-[#C89437] text-white shadow-sm'
+                            : 'bg-[#FAF5ED] text-[#6E4C38] border border-[#E5D2BF]'
+                          }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Bio / Description */}
@@ -240,6 +370,18 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         </form>
 
       </div>
+
+      {/* Banner Cropper Modal (4:1 Ratio) */}
+      <BannerCropperModal
+        isOpen={isCropperOpen}
+        imageSrc={cropperImageSrc}
+        onClose={() => setIsCropperOpen(false)}
+        onSave={(croppedUrl) => {
+          setBannerUrl(croppedUrl);
+          setIsCropperOpen(false);
+          setStatusMessage('⚔️ Banner cropped & positioned!');
+        }}
+      />
     </div>
   );
 };

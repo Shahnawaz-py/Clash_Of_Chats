@@ -73,7 +73,13 @@ export default function ChatsPage() {
             />
 
             {/* COLUMN 3: RIGHT CLAN WAR INTEL & ROSTER */}
-            <ClanIntel recipient={activeRecipient} />
+            <ClanIntel
+              recipient={activeRecipient}
+              onDeselectRecipient={() => {
+                setActiveRecipient(null);
+                setActiveConversationId(null);
+              }}
+            />
 
           </div>
         </main>
