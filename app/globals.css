@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Clash';
+  src: url('/fonts/Clash_Regular.ttf') format('truetype'),
+       url('/fonts/Clash.ttf') format('truetype'),
+       url('/fonts/Clash_Regular.otf.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #F6EFE6;
+    color: #24140D;
+    font-family: 'Clash', 'Be Vietnam Pro', 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom Scrollbar for Sunlit Citadel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F6EFE6;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A88B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #895333;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Color utility classes for exact Stitch design compatibility */
+.bg-background { background-color: #F6EFE6; }
+.text-on-background { color: #24140D; }
+
+.bg-surface-container-lowest { background-color: #ffffff; }
+.bg-surface-container-low { background-color: #FFFDF9; }
+.bg-surface-container { background-color: #f9f2e7; }
+.bg-surface-container-high { background-color: #faeee0; }
+.bg-surface-container-highest { background-color: #f0e3d2; }
+.bg-surface-bright { background-color: #fff8f6; }
+.bg-surface-variant { background-color: #f4e7d5; }
+
+.bg-primary { background-color: #7a5900; }
+.text-primary { color: #7a5900; }
+.bg-primary-container { background-color: #f5b823; }
+.text-on-primary-container { color: #674b00; }
+.text-primary-fixed { color: #ffdea2; }
+.bg-primary-fixed-dim { background-color: #fabd28; }
+.border-primary { border-color: #895333; }
+.border-primary-dark { border-color: #6A4023; }
+.border-primary-darker { border-color: #3C2314; }
+
+.bg-secondary { background-color: #825336; }
+.text-secondary { color: #825336; }
+.bg-secondary-container { background-color: #fdbf9a; }
+.text-on-secondary { color: #ffffff; }
+.text-on-secondary-container { color: #784b2e; }
+.text-secondary-fixed { color: #ffdbc8; }
+
+.text-tertiary { color: #E53935; }
+.bg-tertiary-container { background-color: #EF5350; }
+.bg-on-tertiary-container { background-color: #C62828; }
+.text-tertiary-fixed { color: #FF8A80; }
+.bg-on-tertiary-fixed-variant { background-color: #B71C1C; }
+
+.text-on-surface { color: #24140D; }
+.text-on-surface-variant { color: #6E4C38; }
+
+.bg-error-container { background-color: #ffdad6; }
+.text-on-error { color: #ffffff; }
+.text-on-error-container { color: #93000a; }
+.text-error { color: #ba1a1a; }
+
+.text-outline { color: #895333; }
+.text-outline-variant { color: #d4c5ad; }
+.bg-surface-tint { background-color: #7a5900; }
+.text-surface-tint { color: #7a5900; }
+
+/* Typography Classes (Clash Font Default across entire site) */
+.font-headline-xl { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 36px; line-height: 44px; font-weight: 800; letter-spacing: -0.015em; }
+.font-headline-lg { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 28px; line-height: 36px; font-weight: 700; letter-spacing: -0.01em; }
+.font-headline-md { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: 0em; }
+.font-headline-sm { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 18px; line-height: 24px; font-weight: 700; letter-spacing: 0.01em; }
+
+.font-label-lg { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 14px; line-height: 18px; font-weight: 700; letter-spacing: 0.04em; }
+.font-label-md { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.05em; }
+.font-label-sm { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; font-size: 10px; line-height: 14px; font-weight: 800; letter-spacing: 0.08em; }
+
+.font-clash { font-family: 'Clash', 'Anybody', 'Sora', sans-serif; }
+
+.font-body-lg { font-family: 'Clash', 'Plus Jakarta Sans', sans-serif; font-size: 17px; line-height: 26px; font-weight: 400; }
+.font-body-md { font-family: 'Clash', 'Plus Jakarta Sans', sans-serif; font-size: 15px; line-height: 22px; font-weight: 400; }
+.font-body-sm { font-family: 'Clash', 'Plus Jakarta Sans', sans-serif; font-size: 13px; line-height: 18px; font-weight: 500; }
+
+@media (max-width: 640px) {
+  .font-headline-xl { font-size: 28px; line-height: 36px; }
+  .font-headline-lg { font-size: 24px; line-height: 30px; }
+}

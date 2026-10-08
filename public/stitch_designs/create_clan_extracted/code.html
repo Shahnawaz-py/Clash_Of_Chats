@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Anybody:wght@800;900&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Sora:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-low":"#fff1ec","on-surface":"#24140D","on-tertiary":"#ffffff","on-secondary-fixed":"#321300","tertiary":"#2d6c00","on-secondary-container":"#784b2e","on-tertiary-container":"#255b00","surface-container-lowest":"#ffffff","error":"#ba1a1a","on-primary-fixed-variant":"#5c4200","on-surface-variant":"#6E4C38","secondary-fixed":"#ffdbc8","on-error":"#ffffff","surface":"#fff8f6","surface-container":"#f9f2e7","on-tertiary-fixed-variant":"#205100","primary":"#7a5900","secondary-fixed-dim":"#f7b995","inverse-on-surface":"#ffede7","on-tertiary-fixed":"#092100","outline-variant":"#d4c5ad","primary-container":"#f5b823","on-secondary-fixed-variant":"#673c21","surface-dim":"#f8d2c4","inverse-surface":"#422b22","tertiary-fixed-dim":"#8cda5e","on-primary-container":"#674b00","surface-tint":"#7a5900","on-error-container":"#93000a","tertiary-fixed":"#a7f777","on-secondary":"#ffffff","tertiary-container":"#88d65a","primary-fixed":"#ffdea2","error-container":"#ffdad6","secondary-container":"#fdbf9a","surface-container-highest":"#f0e3d2","outline":"#895333","on-primary":"#ffffff","on-primary-fixed":"#261900","surface-variant":"#f4e7d5","inverse-primary":"#fabd28","primary-fixed-dim":"#fabd28","surface-bright":"#fff8f6","surface-container-high":"#faeee0","secondary":"#825336","background":"#F6EFE6","on-background":"#24140D"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-xs":"0.25rem","margin-mobile":"1rem","margin":"2rem","space-sm":"0.5rem","space-md":"1rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter":"1.25rem","gutter-mobile":"0.75rem"},fontFamily:{"label-sm":["Anybody"],"display-lg":["Anybody"],"headline-sm":["Anybody"],"body-sm":["Plus Jakarta Sans"],"headline-xl-mobile":["Anybody"],"headline-lg":["Anybody"],"body-lg":["Plus Jakarta Sans"],"headline-md":["Anybody"],"label-lg":["Anybody"],"headline-xl":["Anybody"],"label-md":["Anybody"],"body-md":["Plus Jakarta Sans"]},fontSize:{"label-sm":["10px",{lineHeight:"14px",letterSpacing:"0.08em",fontWeight:"800"}],"display-lg":["44px",{lineHeight:"52px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"0.01em",fontWeight:"700"}],"body-sm":["13px",{lineHeight:"18px",fontWeight:"500"}],"headline-xl-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.01em",fontWeight:"800"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.01em",fontWeight:"700"}],"body-lg":["17px",{lineHeight:"26px",fontWeight:"400"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"0em",fontWeight:"700"}],"label-lg":["14px",{lineHeight:"18px",letterSpacing:"0.04em",fontWeight:"700"}],"headline-xl":["36px",{lineHeight:"44px",letterSpacing:"-0.015em",fontWeight:"800"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.05em",fontWeight:"700"}],"body-md":["15px",{lineHeight:"22px",fontWeight:"400"}]}}}};</script></head><body class="bg-[#F6EFE6] font-body-md text-[#24140D] selection:bg-[#f5b823]/30 selection:text-[#674b00]"><header class="fixed top-0 left-0 w-full z-50 bg-[#3C2314] border-b-4 border-[#C89437] shadow-[0_6px_18px_rgba(40,20,10,0.35)]"><div class="h-20 w-full px-4 lg:px-8 flex items-center justify-between"><div class="flex items-center gap-3">
+<div class="h-12 w-12 flex items-center justify-center filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+    https://lh3.googleusercontent.com/aida/AEtjO1UMvpuJBoYb22ZRCQ7HczKyBaXV1YfcsSB6x46TYz5DaTq-KMNDvbbfFvFcEw57J4kD2JRMKmSFSVBGh_XqutzFu5nTKFloBJhPa9OOlGvLzbtuLnSuzOntTQ0OrgNSEWkZI-s3betu8n_0b0olwe7XZ_9M5wKH_TgkmgiDIN_fHzONDuk28exl6qZNiPQZL2fx3afU3L5B-Ur2kMhQcJVx8w2FnOpEyNqJs5nsJn_RqIja-QQ4v-JK_w
+  </div>
+<div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#FBD46E] uppercase tracking-wider drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">CLASH</span><span class="font-label-sm text-label-sm text-[#E2C5A5] uppercase tracking-widest font-extrabold">Clash of Chats</span></div></div><nav class="hidden xl:flex items-center gap-1.5 bg-[#2B180D] p-1.5 rounded-xl border border-[#5A3822] shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)]"><a class="font-label-md text-label-md px-4 py-2 uppercase tracking-wider text-[#E8CDB2] hover:text-[#FFFFFF] hover:bg-[#482816] rounded-lg transition-all" data-path="war-room-chat" href="#">War Room Chat</a><a class="font-label-md text-label-md px-4 py-2 uppercase tracking-wider text-[#E8CDB2] hover:text-[#FFFFFF] hover:bg-[#482816] rounded-lg transition-all" data-path="clans" href="#">Clans</a><a class="font-label-md text-label-md px-4 py-2 uppercase tracking-wider text-[#E8CDB2] hover:text-[#FFFFFF] hover:bg-[#482816] rounded-lg transition-all" data-path="war-scheduler" href="#">War Scheduler</a><a class="font-label-md text-label-md px-4 py-2 uppercase tracking-wider text-[#E8CDB2] hover:text-[#FFFFFF] hover:bg-[#482816] rounded-lg transition-all" data-path="call-to-arms" href="#">Call to Arms</a></nav><div class="flex items-center gap-3"><div class="hidden sm:flex items-center gap-2 bg-[#2B180D] border-2 border-[#C89437] px-3 py-1.5 rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]"><span class="material-symbols-outlined text-[#FBD46E] text-lg">shield</span><span class="font-label-md text-label-md text-[#FBD46E] font-extrabold tracking-wide">2,450</span><span class="font-label-sm text-label-sm text-[#E2C5A5] uppercase">TROPHIES</span></div><div class="flex items-center gap-1.5"><button aria-label="Notifications" class="relative w-9 h-9 rounded-lg bg-[#53301B] border border-[#7A4B2E] flex items-center justify-center hover:bg-[#683C22] shadow-[0_2px_4px_rgba(0,0,0,0.3)] transition-colors" type="button"><span class="material-symbols-outlined text-[#FCEBD7] text-lg">notifications</span><span class="absolute -top-1.5 -right-1.5 min-w-[19px] h-[19px] px-1 bg-[#D32F2F] text-white font-label-sm text-[11px] rounded-full flex items-center justify-center font-black border-2 border-[#3C2314] shadow-md">3</span></button><button aria-label="Toggle Audio SFX" class="w-9 h-9 rounded-lg bg-[#53301B] border border-[#7A4B2E] flex items-center justify-center hover:bg-[#683C22] shadow-[0_2px_4px_rgba(0,0,0,0.3)] transition-colors" type="button"><span class="material-symbols-outlined text-[#FCEBD7] text-lg">volume_up</span></button></div><div class="flex items-center gap-2.5 pl-1"><div class="relative flex-shrink-0"><img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#C89437] shadow-[0_2px_6px_rgba(0,0,0,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDZv0TXPurKrg1nNtA4sJ80qgDzrieOpbYUauzqGxESOoQnFJy7sedf6Ar6S2G0LBUzG6I_MopsjEEVFaewYKMfRkXtO27PjG8QluZHk6szKdRCkkWM7lTZ4eq1wt7XM9W4nY8Qym3i3sGSJo13qP3N9u9p-GBFFELwbfCGoziM1XbYDQGp_jZ0YQlJLhKBmdow4oeGCkMUMZ6pa-ba276t-sLFYeuZUHJLlSwiLcaYACU5KfU_LOo"/><span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-[#4E8B3A] ring-2 ring-[#3C2314]" title="Active in Barracks"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-label-md text-label-md text-[#FFF3E3] leading-tight font-bold">Shahnawaz</span><span class="font-label-sm text-label-sm text-[#FBD46E] uppercase font-extrabold tracking-wider">Clan Leader</span></div></div></div></div></header><main class="w-full pt-20 bg-[#F6EFE6] min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-5xl mx-auto px-4 py-8 lg:py-10">
+<!-- Top Decorative Header Plaque -->
+<div class="relative mb-8 text-center">
+<div class="inline-flex items-center gap-3 bg-gradient-to-b from-[#5C321A] to-[#3A1E0E] px-8 py-3 rounded-2xl shadow-[0_8px_0_#241208,0_14px_24px_rgba(0,0,0,0.35)] relative">
+<div class="absolute -top-2 left-6 w-3 h-3 rounded-full bg-primary-container shadow-[inset_0_1px_1px_#FFFFFF,0_2px_4px_rgba(0,0,0,0.6)]"></div>
+<div class="absolute -top-2 right-6 w-3 h-3 rounded-full bg-primary-container shadow-[inset_0_1px_1px_#FFFFFF,0_2px_4px_rgba(0,0,0,0.6)]"></div>
+<div class="absolute -bottom-1.5 left-6 w-3 h-3 rounded-full bg-[#B28212] shadow-[0_1px_2px_rgba(0,0,0,0.8)]"></div>
+<div class="absolute -bottom-1.5 right-6 w-3 h-3 rounded-full bg-[#B28212] shadow-[0_1px_2px_rgba(0,0,0,0.8)]"></div>
+<span class="material-symbols-outlined text-[#FBD46E] text-3xl">shield</span>
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg text-[#FBD46E] uppercase tracking-wider drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]">
+            Forge Your Clan
+          </span>
+<span class="font-label-sm text-label-sm text-[#E2C5A5] uppercase tracking-widest font-extrabold -mt-1">
+            Warband Enlistment Chamber
+          </span>
+</div>
+<span class="material-symbols-outlined text-[#FBD46E] text-3xl">swords</span>
+</div>
+</div>
+<!-- Main Fortress Container Plaque -->
+<div class="relative bg-[#4A2814] rounded-3xl p-4 sm:p-7 lg:p-9 shadow-[0_12px_0_#231208,0_20px_35px_rgba(0,0,0,0.4)]">
+<!-- Brass Corner Studs -->
+<div class="absolute top-3 left-3 w-4 h-4 rounded-full bg-[#F5B823] shadow-[inset_0_2px_2px_#FFF9C4,0_3px_4px_#1B0B04]"></div>
+<div class="absolute top-3 right-3 w-4 h-4 rounded-full bg-[#F5B823] shadow-[inset_0_2px_2px_#FFF9C4,0_3px_4px_#1B0B04]"></div>
+<div class="absolute bottom-3 left-3 w-4 h-4 rounded-full bg-[#F5B823] shadow-[inset_0_2px_2px_#FFF9C4,0_3px_4px_#1B0B04]"></div>
+<div class="absolute bottom-3 right-3 w-4 h-4 rounded-full bg-[#F5B823] shadow-[inset_0_2px_2px_#FFF9C4,0_3px_4px_#1B0B04]"></div>
+<!-- Inner Parchment Strongbox Plate -->
+<div class="bg-[#F6EFE6] rounded-2xl p-5 sm:p-7 lg:p-8 shadow-[inset_0_3px_8px_rgba(44,24,16,0.18)]">
+<form class="flex flex-col gap-8" id="createClanForm" onsubmit="event.preventDefault();">
+<!-- TOP ROW: Clan Name & Live Banner / Heraldry Previews -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+<!-- LEFT COLUMN: Clan Name & Description -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<!-- 1. Clan Name Input -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-2 font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide" for="clanNameInput">
+<span class="material-symbols-outlined text-primary-container text-xl">military_tech</span>
+                    Clan Name
+                  </label>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Required • Max 24</span>
+</div>
+<div class="relative rounded-xl bg-[#E8DAC9] shadow-[inset_0_3px_5px_rgba(44,24,16,0.22)] p-1">
+<div class="flex items-center gap-3 px-3 py-1">
+<span class="material-symbols-outlined text-secondary text-2xl">label</span>
+<input class="w-full bg-transparent border-0 focus:ring-0 text-on-surface font-headline-sm text-headline-sm placeholder:text-outline/70 focus:outline-none" id="clanNameInput" maxlength="24" name="clanName" placeholder="e.g. Valhalla Vanguard" type="text" value="Valhalla Vanguard"/>
+</div>
+</div>
+</div>
+<!-- 4. Clan Description Textarea -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-2 font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide" for="clanDescriptionInput">
+<span class="material-symbols-outlined text-primary-container text-xl">history_edu</span>
+                    Clan Description
+                  </label>
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Optional</span>
+</div>
+<div class="relative rounded-xl bg-[#E8DAC9] shadow-[inset_0_3px_5px_rgba(44,24,16,0.22)] p-2">
+<textarea class="w-full bg-transparent border-0 focus:ring-0 text-on-surface font-body-md text-body-md placeholder:text-outline/70 resize-none focus:outline-none leading-relaxed" id="clanDescriptionInput" maxlength="160" name="clanDescription" placeholder="Brief warband manifesto, battle cries, meeting times, or clan rules..." rows="3">Brave warriors defending the northern fortress. Active daily in war raids and tactical skirmishes. Always donate before asking!</textarea>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="font-label-sm text-label-sm text-outline">Parchment War Manifesto</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold" id="charCounter">115 / 160</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Avatar & Banner Combined Heraldry Showcase -->
+<div class="lg:col-span-5 flex flex-col gap-5 bg-[#EBDBC8] p-5 rounded-2xl shadow-[inset_0_2px_5px_rgba(44,24,16,0.18)]">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">flag</span>
+                  Heraldry Preview
+                </span>
+<span class="font-label-sm text-label-sm bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full font-extrabold uppercase">
+                  Tactical Standard
+                </span>
+</div>
+<!-- Banner Preview Box with Avatar Floating Overlap -->
+<div class="relative w-full rounded-xl overflow-hidden shadow-[0_6px_0_#673C21,0_10px_16px_rgba(0,0,0,0.25)] bg-[#2D160C]">
+<!-- 2. Clan Banner Visual Preview -->
+<div class="relative h-32 w-full bg-gradient-to-r from-[#8B1E1E] via-[#B71C1C] to-[#8B1E1E] flex items-center justify-center overflow-hidden" id="bannerPreview">
+<div class="absolute inset-0 opacity-20 bg-[radial-gradient(#F5B823_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<!-- Banner Crest Watermark -->
+<div class="flex flex-col items-center justify-center text-center select-none text-[#FBD46E]" id="bannerGraphic">
+<span class="material-symbols-outlined text-6xl drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">local_fire_department</span>
+<span class="font-headline-sm text-headline-sm uppercase tracking-widest text-[#FFF2A8] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mt-1" id="bannerTextDisplay">
+                      VALHALLA VANGUARD
+                    </span>
+</div>
+<!-- Gold Banner Bottom Fringe Ribbon -->
+<div class="absolute bottom-0 inset-x-0 h-2 bg-gradient-to-r from-[#D4AF37] via-[#FFF2A8] to-[#D4AF37] shadow-sm"></div>
+</div>
+<!-- 3. Clan Avatar Shield Emblem Preview Overlap -->
+<div class="p-3 bg-[#3F2010] flex items-center gap-4">
+<div class="relative -mt-10 ml-2">
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-b from-[#F5B823] to-[#B28212] p-1 shadow-[0_4px_0_#241208,0_6px_12px_rgba(0,0,0,0.4)] flex items-center justify-center" id="avatarContainer">
+<div class="w-full h-full rounded-xl bg-gradient-to-b from-[#7A1F1D] to-[#450C0B] flex items-center justify-center">
+<span class="material-symbols-outlined text-[#FBD46E] text-3xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" id="avatarIconDisplay">shield</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-[#FFF2A8] leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" id="previewTitle">
+                      Valhalla Vanguard
+                    </span>
+<span class="font-label-sm text-label-sm text-[#E2C5A5] uppercase font-bold tracking-wider">
+                      Standard Bearer Crest
+                    </span>
+</div>
+</div>
+</div>
+<!-- Heraldry Presets & Pickers -->
+<div class="grid grid-cols-2 gap-3 pt-1">
+<!-- 2. Banner Selector -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase">Banner Pattern</span>
+<div class="grid grid-cols-4 gap-1.5" id="bannerPicker">
+<button class="h-9 rounded-lg bg-gradient-to-b from-[#B71C1C] to-[#670B0B] shadow-[0_3px_0_#3A0808] flex items-center justify-center active:translate-y-0.5" data-banner="crimson-fire" title="Crimson Fire" type="button">
+<span class="material-symbols-outlined text-[#FBD46E] text-sm">local_fire_department</span>
+</button>
+<button class="h-9 rounded-lg bg-gradient-to-b from-[#1565C0] to-[#0A2E5C] shadow-[0_3px_0_#061833] flex items-center justify-center active:translate-y-0.5 opacity-80 hover:opacity-100" data-banner="royal-dragon" title="Cobalt Dragon" type="button">
+<span class="material-symbols-outlined text-[#FFF] text-sm">cruelty_free</span>
+</button>
+<button class="h-9 rounded-lg bg-gradient-to-b from-[#2E7D32] to-[#144217] shadow-[0_3px_0_#0B240D] flex items-center justify-center active:translate-y-0.5 opacity-80 hover:opacity-100" data-banner="emerald-axes" title="Verdant Axes" type="button">
+<span class="material-symbols-outlined text-[#FFF] text-sm">swords</span>
+</button>
+<button class="h-9 rounded-lg bg-gradient-to-b from-[#D48806] to-[#784704] shadow-[0_3px_0_#422401] flex items-center justify-center active:translate-y-0.5 opacity-80 hover:opacity-100" data-banner="golden-lion" title="Gilded Sun" type="button">
+<span class="material-symbols-outlined text-[#FFF] text-sm">wb_sunny</span>
+</button>
+</div>
+</div>
+<!-- 3. Avatar / Shield Emblem Selector -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase">Shield Emblem</span>
+<div class="grid grid-cols-4 gap-1.5" id="avatarPicker">
+<button class="h-9 rounded-lg bg-[#53301B] shadow-[0_3px_0_#2B180D] flex items-center justify-center active:translate-y-0.5" data-avatar="shield" title="Iron Shield" type="button">
+<span class="material-symbols-outlined text-[#FBD46E] text-sm">shield</span>
+</button>
+<button class="h-9 rounded-lg bg-[#3C2314] shadow-[0_3px_0_#1E0F07] flex items-center justify-center active:translate-y-0.5 hover:bg-[#53301B]" data-avatar="skull" title="Viking Skull" type="button">
+<span class="material-symbols-outlined text-[#E2C5A5] text-sm">skull</span>
+</button>
+<button class="h-9 rounded-lg bg-[#3C2314] shadow-[0_3px_0_#1E0F07] flex items-center justify-center active:translate-y-0.5 hover:bg-[#53301B]" data-avatar="crown" title="Gold Crown" type="button">
+<span class="material-symbols-outlined text-[#E2C5A5] text-sm">crown</span>
+</button>
+<button class="h-9 rounded-lg bg-[#3C2314] shadow-[0_3px_0_#1E0F07] flex items-center justify-center active:translate-y-0.5 hover:bg-[#53301B]" data-avatar="target" title="Archer Target" type="button">
+<span class="material-symbols-outlined text-[#E2C5A5] text-sm">adjust</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TIMBER DIVIDER PLANK -->
+<div class="h-3 w-full bg-gradient-to-r from-[#5C321A] via-[#7B4627] to-[#5C321A] rounded-full shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex items-center justify-between px-6">
+<div class="w-1.5 h-1.5 rounded-full bg-[#F5B823] shadow-sm"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-[#F5B823] shadow-sm"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-[#F5B823] shadow-sm"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-[#F5B823] shadow-sm"></div>
+</div>
+<!-- 5. ADD WARRIOR SECTION -->
+<div class="flex flex-col gap-5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-b from-[#F5B823] to-[#B28212] flex items-center justify-center shadow-[0_3px_0_#5C4200]">
+<span class="material-symbols-outlined text-[#261900] text-xl">person_add</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-wide">
+                    Add Warriors
+                  </h3>
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">
+                    Recruit Initial Clan Comrades
+                  </span>
+</div>
+</div>
+<!-- Warrior Counter Badge -->
+<div class="inline-flex items-center gap-2 bg-[#E6D4BF] px-3 py-1.5 rounded-xl shadow-[inset_0_2px_3px_rgba(44,24,16,0.2)]">
+<span class="material-symbols-outlined text-primary text-base">groups</span>
+<span class="font-label-md text-label-md text-on-surface font-extrabold uppercase" id="warriorCountBadge">
+                  3 Warriors Recruited
+                </span>
+</div>
+</div>
+<!-- Recruited Warriors Tray / Chips -->
+<div class="bg-[#EFE4D6] p-3 rounded-xl shadow-[inset_0_2px_4px_rgba(44,24,16,0.14)]">
+<span class="font-label-sm text-label-sm text-outline font-bold uppercase tracking-wider block mb-2">
+                Selected Warband Vanguard
+              </span>
+<div class="flex flex-wrap gap-2.5 min-h-[38px] items-center" id="selectedWarriorsContainer">
+<!-- Chips injected dynamically via JS -->
+</div>
+</div>
+<!-- Warrior Search Bar -->
+<div class="relative rounded-xl bg-[#E8DAC9] shadow-[inset_0_3px_5px_rgba(44,24,16,0.22)] p-1">
+<div class="flex items-center gap-3 px-3 py-1.5">
+<span class="material-symbols-outlined text-secondary text-2xl">person_search</span>
+<input class="w-full bg-transparent border-0 focus:ring-0 text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none" id="warriorSearchInput" placeholder="Search warriors by name or clan tag (e.g. Ahmed, Valkyrie)..." type="text"/>
+<button class="text-outline hover:text-on-surface hidden" id="clearSearchBtn" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</div>
+<!-- Search Results / Available Warriors Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="warriorsGrid">
+<!-- Cards rendered via JS -->
+</div>
+</div>
+<!-- 6. CREATE CLAN PRIMARY ACTION BUTTON -->
+<div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-lg">info</span>
+<span class="font-body-sm text-body-sm">
+                Clan heraldry, badge, and war roster will be initialized immediately in the war room.
+              </span>
+</div>
+<button class="w-full sm:w-auto min-w-[280px] px-8 py-4 rounded-2xl bg-gradient-to-b from-[#EF5350] via-[#E53935] to-[#C62828] text-white shadow-[0_6px_0_#7F0000,0_10px_18px_rgba(186,26,26,0.45)] hover:brightness-110 active:translate-y-1 active:shadow-[0_2px_0_#7F0000] transition-all flex items-center justify-center gap-3 cursor-pointer group" id="forgeClanButton" type="submit">
+<span class="material-symbols-outlined text-[#FFF2A8] text-2xl group-hover:rotate-12 transition-transform">swords</span>
+<span class="font-headline-sm text-headline-sm uppercase tracking-wider text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)] font-extrabold">
+                ⚔️ Forge Clan
+              </span>
+<span class="material-symbols-outlined text-[#FFF2A8] text-2xl group-hover:-rotate-12 transition-transform">bolt</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Success Feedback Banner (Hidden by default) -->
+<div class="fixed bottom-6 right-6 hidden z-50 bg-[#2E7D32] text-white px-6 py-4 rounded-2xl shadow-[0_6px_0_#1B5E20,0_12px_24px_rgba(0,0,0,0.4)] flex items-center gap-3 animate-bounce" id="creationToast">
+<span class="material-symbols-outlined text-3xl text-[#FFF]">verified</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm uppercase">Clan Forged in Honor!</h4>
+<p class="font-body-sm text-body-sm">The war room gates have opened for your comrades.</p>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Initial Dataset for Warriors
+  const availableWarriors = [
+    { id: 'w1', name: 'Ahmed', handle: '@ahmed_clash', tag: '#8Y9QQ9P', level: 64, avatar: 'shield', selected: true },
+    { id: 'w2', name: 'Sara', handle: '@valkyrie_sara', tag: '#2LL9P0R', level: 58, avatar: 'cruelty_free', selected: true },
+    { id: 'w3', name: 'Ali', handle: '@ali_spear', tag: '#99VCR8Q', level: 49, avatar: 'sports_martial_arts', selected: true },
+    { id: 'w4', name: 'Viktor', handle: '@viktor_v', tag: '#80PR29X', level: 70, avatar: 'military_tech', selected: false },
+    { id: 'w5', name: 'Valkyrie Rose', handle: '@rose_battle', tag: '#44TY71K', level: 52, avatar: 'local_fire_department', selected: false },
+    { id: 'w6', name: 'Ragnar Stone', handle: '@ragnar_north', tag: '#67KL88N', level: 61, avatar: 'fitness_center', selected: false }
+  ];
+
+  const bannerStyles = {
+    'crimson-fire': {
+      class: 'bg-gradient-to-r from-[#8B1E1E] via-[#B71C1C] to-[#8B1E1E]',
+      icon: 'local_fire_department'
+    },
+    'royal-dragon': {
+      class: 'bg-gradient-to-r from-[#0F3868] via-[#1565C0] to-[#0F3868]',
+      icon: 'cruelty_free'
+    },
+    'emerald-axes': {
+      class: 'bg-gradient-to-r from-[#174A1B] via-[#2E7D32] to-[#174A1B]',
+      icon: 'swords'
+    },
+    'golden-lion': {
+      class: 'bg-gradient-to-r from-[#6A3F03] via-[#D48806] to-[#6A3F03]',
+      icon: 'wb_sunny'
+    }
+  };
+
+  const avatarIcons = {
+    'shield': 'shield',
+    'skull': 'skull',
+    'crown': 'crown',
+    'target': 'adjust'
+  };
+
+  // DOM Elements
+  const clanNameInput = document.getElementById('clanNameInput');
+  const clanDescInput = document.getElementById('clanDescriptionInput');
+  const charCounter = document.getElementById('charCounter');
+  const previewTitle = document.getElementById('previewTitle');
+  const bannerTextDisplay = document.getElementById('bannerTextDisplay');
+  const bannerPreview = document.getElementById('bannerPreview');
+  const bannerGraphic = document.getElementById('bannerGraphic');
+  const avatarIconDisplay = document.getElementById('avatarIconDisplay');
+  const warriorSearchInput = document.getElementById('warriorSearchInput');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const warriorsGrid = document.getElementById('warriorsGrid');
+  const selectedWarriorsContainer = document.getElementById('selectedWarriorsContainer');
+  const warriorCountBadge = document.getElementById('warriorCountBadge');
+  const bannerPicker = document.getElementById('bannerPicker');
+  const avatarPicker = document.getElementById('avatarPicker');
+  const forgeBtn = document.getElementById('forgeClanButton');
+  const toast = document.getElementById('creationToast');
+
+  // Sync Clan Name with Heraldry Previews
+  clanNameInput.addEventListener('input', (e) => {
+    const val = e.target.value.trim() || 'Valhalla Vanguard';
+    previewTitle.textContent = val;
+    bannerTextDisplay.textContent = val.toUpperCase();
+  });
+
+  // Sync Clan Description Counter
+  clanDescInput.addEventListener('input', (e) => {
+    charCounter.textContent = `${e.target.value.length} / 160`;
+  });
+
+  // Banner Presets Click
+  bannerPicker.querySelectorAll('button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      bannerPicker.querySelectorAll('button').forEach(b => b.classList.add('opacity-80'));
+      btn.classList.remove('opacity-80');
+      const bannerKey = btn.getAttribute('data-banner');
+      const cfg = bannerStyles[bannerKey];
+      if (cfg) {
+        bannerPreview.className = `relative h-32 w-full ${cfg.class} flex items-center justify-center overflow-hidden`;
+        bannerGraphic.querySelector('.material-symbols-outlined').textContent = cfg.icon;
+      }
+    });
+  });
+
+  // Shield Emblem Presets Click
+  avatarPicker.querySelectorAll('button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      avatarPicker.querySelectorAll('button').forEach(b => {
+        b.classList.remove('bg-[#53301B]', 'shadow-[0_3px_0_#2B180D]');
+        b.classList.add('bg-[#3C2314]', 'shadow-[0_3px_0_#1E0F07]');
+      });
+      btn.classList.remove('bg-[#3C2314]', 'shadow-[0_3px_0_#1E0F07]');
+      btn.classList.add('bg-[#53301B]', 'shadow-[0_3px_0_#2B180D]');
+
+      const avatarKey = btn.getAttribute('data-avatar');
+      if (avatarIcons[avatarKey]) {
+        avatarIconDisplay.textContent = avatarIcons[avatarKey];
+      }
+    });
+  });
+
+  // Render Warriors Grid and Selected Tray
+  function renderWarriors(query = '') {
+    const filter = query.toLowerCase();
+    const filtered = availableWarriors.filter(w => 
+      w.name.toLowerCase().includes(filter) || 
+      w.handle.toLowerCase().includes(filter) || 
+      w.tag.toLowerCase().includes(filter)
+    );
+
+    // Render Grid
+    warriorsGrid.innerHTML = '';
+    if (filtered.length === 0) {
+      warriorsGrid.innerHTML = `
+        <div class="col-span-full py-6 text-center text-outline font-label-md">
+          <span class="material-symbols-outlined text-3xl mb-1 text-outline">search_off</span>
+          <p>No warriors found matching "${query}".</p>
+        </div>
+      `;
+    } else {
+      filtered.forEach(warrior => {
+        const isSelected = warrior.selected;
+        const card = document.createElement('div');
+        card.className = `cursor-pointer transition-all p-3 rounded-xl flex items-center justify-between select-none ${
+          isSelected 
+            ? 'bg-[#E5D2BC] shadow-[0_3px_0_#673C21]' 
+            : 'bg-[#F2E7D8] shadow-[0_2px_0_#9E816E] hover:bg-[#EBDDCB]'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-lg ${isSelected ? 'bg-gradient-to-b from-[#F5B823] to-[#B28212]' : 'bg-[#D7C4AF]'} flex items-center justify-center flex-shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-[#261900] text-xl">${warrior.avatar}</span>
+            </div>
+            <div class="flex flex-col truncate">
+              <div class="flex items-center gap-1.5">
+                <span class="font-headline-sm text-headline-sm text-on-surface truncate">${warrior.name}</span>
+                <span class="font-label-sm text-label-sm bg-[#3C2314] text-[#FBD46E] px-1.5 py-0.2 rounded font-extrabold">LVL ${warrior.level}</span>
+              </div>
+              <span class="font-label-sm text-label-sm text-secondary font-semibold">${warrior.tag}</span>
+            </div>
+          </div>
+          
+          <div class="w-7 h-7 rounded-lg ${isSelected ? 'bg-[#2E7D32] text-white shadow-[0_2px_0_#144217]' : 'bg-[#D2BEA9] text-transparent shadow-[inset_0_2px_2px_rgba(0,0,0,0.2)]'} flex items-center justify-center transition-all flex-shrink-0 ml-2">
+            <span class="material-symbols-outlined text-base font-bold">${isSelected ? 'check' : 'add'}</span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          warrior.selected = !warrior.selected;
+          renderWarriors(warriorSearchInput.value);
+          renderSelectedTray();
+        });
+
+        warriorsGrid.appendChild(card);
+      });
+    }
+  }
+
+  function renderSelectedTray() {
+    const selected = availableWarriors.filter(w => w.selected);
+    selectedWarriorsContainer.innerHTML = '';
+    warriorCountBadge.textContent = `${selected.length} Warrior${selected.length === 1 ? '' : 's'} Recruited`;
+
+    if (selected.length === 0) {
+      selectedWarriorsContainer.innerHTML = `
+        <span class="font-body-sm text-body-sm text-outline italic">No comrades assigned yet. Search and add warriors below.</span>
+      `;
+      return;
+    }
+
+    selected.forEach(warrior => {
+      const chip = document.createElement('div');
+      chip.className = 'inline-flex items-center gap-2 bg-[#F6EFE6] px-2.5 py-1 rounded-lg shadow-[0_2px_0_#825336] animate-fadeIn';
+      chip.innerHTML = `
+        <span class="font-label-sm text-label-sm bg-[#5C321A] text-[#FFF2A8] px-1 rounded font-black">LVL ${warrior.level}</span>
+        <span class="font-headline-sm text-headline-sm text-on-surface text-xs font-bold">${warrior.name}</span>
+        <button type="button" class="text-secondary hover:text-error flex items-center justify-center p-0.5 rounded focus:outline-none" title="Remove ${warrior.name}">
+          <span class="material-symbols-outlined text-sm">close</span>
+        </button>
+      `;
+
+      chip.querySelector('button').addEventListener('click', (e) => {
+        e.stopPropagation();
+        warrior.selected = false;
+        renderWarriors(warriorSearchInput.value);
+        renderSelectedTray();
+      });
+
+      selectedWarriorsContainer.appendChild(chip);
+    });
+  }
+
+  // Search input handler
+  warriorSearchInput.addEventListener('input', (e) => {
+    const val = e.target.value;
+    clearSearchBtn.classList.toggle('hidden', val.length === 0);
+    renderWarriors(val);
+  });
+
+  clearSearchBtn.addEventListener('click', () => {
+    warriorSearchInput.value = '';
+    clearSearchBtn.classList.add('hidden');
+    renderWarriors();
+  });
+
+  // Forge Clan Action
+  forgeBtn.addEventListener('click', () => {
+    const name = clanNameInput.value.trim();
+    if (!name) {
+      clanNameInput.focus();
+      clanNameInput.parentElement.classList.add('ring-2', 'ring-error');
+      setTimeout(() => clanNameInput.parentElement.classList.remove('ring-2', 'ring-error'), 1500);
+      return;
+    }
+
+    // Trigger visual toast
+    toast.classList.remove('hidden');
+    forgeBtn.disabled = true;
+    forgeBtn.classList.add('opacity-80', 'cursor-not-allowed');
+
+    setTimeout(() => {
+      toast.classList.add('hidden');
+      forgeBtn.disabled = false;
+      forgeBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+    }, 3500);
+  });
+
+  // Initial Boot
+  renderWarriors();
+  renderSelectedTray();
+</script></main><footer class="w-full bg-[#3C2314] border-t-4 border-[#C89437] py-4 text-center md:text-left"><div class="w-full px-4 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[#FBD46E] text-lg">swords</span><span class="font-label-md text-label-md text-[#E8CDB2] uppercase tracking-wider font-extrabold">CLASH TACTICAL CHAT PROTOCOL • FORGED FOR MID-CORE VICTORY</span></div><div class="flex items-center gap-4"><span class="font-label-sm text-label-sm text-[#C8A688] uppercase font-bold">SERVER REGION: N.VALLEY [OPTIMAL 14MS]</span><span class="font-label-sm text-label-sm text-[#C8A688] uppercase font-bold">© 2024 CLASH WAR THEATRE</span></div></div></footer></body></html>
