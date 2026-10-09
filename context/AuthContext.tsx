@@ -13,12 +13,15 @@ export interface UserProfile {
   level: number;
   role: string;
   isOnline: boolean;
+  isDemoUser?: boolean;
+  friendStatus?: string;
+  friendRequestId?: string;
+  friends?: string[];
   bannerPattern?: string;
   bannerUrl?: string;
   bannerTitle?: string;
   bannerFilter?: string;
   description?: string;
-  tag?: string;
   token?: string;
   isGroup?: boolean;
   clan?: any;

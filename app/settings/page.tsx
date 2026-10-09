@@ -190,11 +190,20 @@ export default function SettingsPage() {
     }
   };
 
-  const confirmAvatarSelection = () => {
-    sfx.playClanReward();
-    setSelectedAvatar(tempAvatar);
-    setIsAvatarModalOpen(false);
-    showToast('Hero Avatar Updated!');
+  const confirmAvatarSelection = async () => {
+    try {
+      sfx.playClanReward();
+      const updated = await userApi.updateProfile({
+        avatar: tempAvatar,
+      });
+      updateUser(updated);
+      setSelectedAvatar(tempAvatar);
+      setIsAvatarModalOpen(false);
+      showToast('Hero Avatar Updated!');
+    } catch (err: any) {
+      sfx.playError();
+      showToast(`Failed to update avatar: ${err.message || 'Error'}`);
+    }
   };
 
   const confirmBannerSelection = async () => {
@@ -862,8 +871,8 @@ export default function SettingsPage() {
                     type="button"
                     onClick={() => { sfx.playClick(); setBannerModalTab('preset'); }}
                     className={`flex-1 py-1.5 px-3 rounded-lg font-label-md text-xs uppercase font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${bannerModalTab === 'preset'
-                        ? 'bg-[#FFFDF9] text-[#3E2415] shadow-sm border border-[#C89437]'
-                        : 'text-[#7D583F] hover:text-[#3E2415]'
+                      ? 'bg-[#FFFDF9] text-[#3E2415] shadow-sm border border-[#C89437]'
+                      : 'text-[#7D583F] hover:text-[#3E2415]'
                       }`}
                   >
                     <span className="material-symbols-outlined text-sm">photo_library</span>
@@ -873,8 +882,8 @@ export default function SettingsPage() {
                     type="button"
                     onClick={() => { sfx.playClick(); setBannerModalTab('edit'); }}
                     className={`flex-1 py-1.5 px-3 rounded-lg font-label-md text-xs uppercase font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${bannerModalTab === 'edit'
-                        ? 'bg-[#FCE182] text-[#412708] shadow-sm border border-[#A8740B]'
-                        : 'text-[#7D583F] hover:text-[#3E2415]'
+                      ? 'bg-[#FCE182] text-[#412708] shadow-sm border border-[#A8740B]'
+                      : 'text-[#7D583F] hover:text-[#3E2415]'
                       }`}
                   >
                     <span className="material-symbols-outlined text-sm">edit</span>
@@ -1046,8 +1055,8 @@ export default function SettingsPage() {
                                 setTempBannerFilter(flt.id);
                               }}
                               className={`p-2.5 rounded-xl border transition-all text-left cursor-pointer flex items-center justify-between ${isSelected
-                                  ? 'bg-[#FFF2D7] border-[#C89437] ring-1 ring-[#F5B823] text-[#3E2415]'
-                                  : 'bg-[#FAF5ED] border-[#E5D2BF] text-[#6E4C38] hover:bg-[#FFFDF9]'
+                                ? 'bg-[#FFF2D7] border-[#C89437] ring-1 ring-[#F5B823] text-[#3E2415]'
+                                : 'bg-[#FAF5ED] border-[#E5D2BF] text-[#6E4C38] hover:bg-[#FFFDF9]'
                                 }`}
                             >
                               <span className="font-label-sm text-xs font-bold">{flt.name}</span>

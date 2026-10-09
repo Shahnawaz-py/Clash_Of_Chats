@@ -142,7 +142,7 @@ export const ClansListModal: React.FC<ClansListModalProps> = ({ isOpen, onClose 
 
           <button
             type="button"
-            onClick={() => { sfx.playClick(); setIsCreateModalOpen(true); }}
+            onClick={() => { sfx.playClick(); onClose(); router.push('/create-clan'); }}
             className="px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#EF5350] via-[#E53935] to-[#C62828] text-white font-headline-sm text-xs font-black uppercase tracking-wider shadow-[0_3px_0_#7F0000] hover:brightness-110 active:translate-y-0.5 flex items-center gap-1.5 transition-all cursor-pointer flex-shrink-0"
           >
             <span className="material-symbols-outlined text-base">add_circle</span>
@@ -167,7 +167,7 @@ export const ClansListModal: React.FC<ClansListModalProps> = ({ isOpen, onClose 
               </p>
               <button
                 type="button"
-                onClick={() => { sfx.playClick(); setIsCreateModalOpen(true); }}
+                onClick={() => { sfx.playClick(); onClose(); router.push('/create-clan'); }}
                 className="px-6 py-3 rounded-xl bg-gradient-to-b from-[#F5B823] to-[#B28212] text-[#3E2207] font-headline-sm uppercase font-black shadow-[0_3px_0_#5C4200] hover:brightness-105 cursor-pointer"
               >
                 ⚔️ FORGE THE FIRST CLAN
