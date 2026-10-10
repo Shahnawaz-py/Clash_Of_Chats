@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { sfx } from '@/lib/sfx';
+import { CloudLoadingScreen } from '@/components/CloudLoadingScreen';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function LoginPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [isCloudTransition, setIsCloudTransition] = useState(false);
 
 
   const handleToggleMode = (newMode: 'login' | 'signup') => {
@@ -50,7 +52,13 @@ export default function LoginPage() {
         setSubmitting(true);
         await login({ emailOrTag: emailOrTag.trim(), password });
         sfx.playSuccess();
-        router.push('/chats');
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('coc_cloud_transition', 'true');
+        }
+        setIsCloudTransition(true);
+        setTimeout(() => {
+          router.push('/chats');
+        }, 600);
       } catch (err: any) {
         setSubmitting(false);
         sfx.playError();
@@ -89,7 +97,13 @@ export default function LoginPage() {
           avatarName: 'Barbarian Chieftain',
         });
         sfx.playSuccess();
-        router.push('/chats');
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('coc_cloud_transition', 'true');
+        }
+        setIsCloudTransition(true);
+        setTimeout(() => {
+          router.push('/chats');
+        }, 600);
       } catch (err: any) {
         setSubmitting(false);
         sfx.playError();
@@ -99,8 +113,10 @@ export default function LoginPage() {
   };
 
   return (
-    <main
-      className="w-full min-h-screen bg-cover bg-center bg-fixed text-on-background selection:bg-secondary-container selection:text-secondary flex items-center justify-center relative py-8"
+    <>
+      {isCloudTransition && <CloudLoadingScreen message="ENTERING CLASH OF CHATS..." />}
+      <main
+        className="w-full min-h-screen bg-cover bg-center bg-fixed text-on-background selection:bg-secondary-container selection:text-secondary flex items-center justify-center relative py-8"
       style={{ backgroundImage: "url('/images/coc-login-gemini.svg')" }}
     >
       {/* Subtle Transparent Vignette with Warm Crimson Overlay */}
@@ -380,5 +396,6 @@ export default function LoginPage() {
 
       </div>
     </main>
-  );
+  </>
+);
 }

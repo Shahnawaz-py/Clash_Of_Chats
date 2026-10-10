@@ -16,7 +16,7 @@ import { UserProfile } from '@/context/AuthContext';
 
 export const NavigationHeader: React.FC = () => {
   const { user, logout } = useAuth();
-  const { isPlaying, toggleMusic } = useAudio();
+  const { isSfxEnabled, toggleSfx } = useAudio();
   const { socket } = useSocket();
   const pathname = usePathname();
 
@@ -180,19 +180,19 @@ export const NavigationHeader: React.FC = () => {
         {/* Right User & Audio Bar */}
         <div className="flex items-center gap-3">
 
-          {/* Music ON/OFF Volume Toggle Icon */}
+          {/* Tap SFX ON/OFF Volume Toggle Icon */}
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              toggleMusic();
+              toggleSfx();
             }}
-            aria-label="Toggle Music & SFX"
-            title={isPlaying ? "Mute Background Music & SFX" : "Play Background Music & SFX"}
+            aria-label="Toggle UI Tap Sound Effects"
+            title={isSfxEnabled ? "Mute UI Tap Sound Effects" : "Enable UI Tap Sound Effects"}
             className="w-10 h-10 rounded-xl bg-[#53301B] border-2 border-[#7A4B2E] hover:border-[#C89437] flex items-center justify-center hover:bg-[#683C22] shadow-[0_2px_4px_rgba(0,0,0,0.3)] transition-all cursor-pointer"
           >
-            <span className={`material-symbols-outlined text-lg ${isPlaying ? 'text-[#FBD46E]' : 'text-[#8A6348]'}`}>
-              {isPlaying ? 'volume_up' : 'volume_off'}
+            <span className={`material-symbols-outlined text-lg ${isSfxEnabled ? 'text-[#FBD46E]' : 'text-[#8A6348]'}`}>
+              {isSfxEnabled ? 'volume_up' : 'volume_off'}
             </span>
           </button>
 

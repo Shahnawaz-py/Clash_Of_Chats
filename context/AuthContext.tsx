@@ -22,6 +22,10 @@ export interface UserProfile {
   bannerTitle?: string;
   bannerFilter?: string;
   description?: string;
+  bio?: string;
+  tag?: string;
+  playerTag?: string;
+  clanName?: string;
   token?: string;
   isGroup?: boolean;
   clan?: any;

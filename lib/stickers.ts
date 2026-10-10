@@ -121,3 +121,27 @@ export const STICKERS: StickerItem[] = [
     category: 'Reactions',
   },
 ];
+
+export function formatStickerOrText(msg?: any, fallback: string = ''): string {
+  if (!msg) return fallback;
+  const text = typeof msg === 'string' ? msg : msg.text;
+  if (!text) return fallback;
+  if (typeof msg === 'object' && msg?.isDeleted) return 'This dispatch was recalled.';
+
+  if (
+    text.startsWith('/stickers/') ||
+    text.endsWith('.png') ||
+    text.endsWith('.jpg') ||
+    text.endsWith('.jpeg') ||
+    text.endsWith('.webp') ||
+    text.endsWith('.gif')
+  ) {
+    const matchedSticker = STICKERS.find((s) => s.url === text);
+    if (matchedSticker) {
+      return `[Sticker] ${matchedSticker.name}`;
+    }
+    return '[Sticker]';
+  }
+  return text;
+}
+

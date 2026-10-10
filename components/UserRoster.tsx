@@ -8,6 +8,7 @@ import { useAuth, UserProfile } from '@/context/AuthContext';
 import { useSocket } from '@/context/SocketContext';
 import { CreateClanModal } from '@/components/CreateClanModal';
 import { sfx } from '@/lib/sfx';
+import { formatStickerOrText } from '@/lib/stickers';
 
 const bannerGradients: Record<string, string> = {
   'crimson-fire': 'bg-gradient-to-r from-[#8B1E1E] via-[#B71C1C] to-[#8B1E1E]',
@@ -428,7 +429,7 @@ export const UserRoster: React.FC<UserRosterProps> = ({
                       </div>
 
                       <p className="font-body-sm text-body-sm text-[#6E4C38] truncate mt-1 italic">
-                        {conv.lastMessage?.text || 'New unread clan dispatch.'}
+                        {formatStickerOrText(conv.lastMessage, 'New unread clan dispatch.')}
                       </p>
                     </div>
 
@@ -502,7 +503,7 @@ export const UserRoster: React.FC<UserRosterProps> = ({
                         </div>
                       </div>
                       <p className="font-body-sm text-body-sm text-[#6E4C38] truncate mt-0.5">
-                        {conv.lastMessage?.text || `Unread dispatch from ${warrior.username}...`}
+                        {formatStickerOrText(conv.lastMessage, `Unread dispatch from ${warrior.username}...`)}
                       </p>
                     </div>
 
@@ -583,7 +584,7 @@ export const UserRoster: React.FC<UserRosterProps> = ({
                       </div>
 
                       <p className="font-body-sm text-body-sm text-[#6E4C38] truncate mt-1 italic">
-                        {clanConv?.lastMessage?.text || 'No clan dispatches yet.'}
+                        {formatStickerOrText(clanConv?.lastMessage, 'No clan dispatches yet.')}
                       </p>
                     </div>
 
@@ -660,7 +661,7 @@ export const UserRoster: React.FC<UserRosterProps> = ({
                       </div>
                     </div>
                     <p className="font-body-sm text-body-sm text-[#6E4C38] truncate mt-0.5">
-                      {conv?.lastMessage?.text || `Start dispatch with ${warrior.username}...`}
+                      {formatStickerOrText(conv?.lastMessage, `Start dispatch with ${warrior.username}...`)}
                     </p>
                   </div>
 

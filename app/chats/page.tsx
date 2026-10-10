@@ -7,12 +7,36 @@ import { UserRoster } from '@/components/UserRoster';
 import { ChatStage } from '@/components/ChatStage';
 import { ClanIntel } from '@/components/ClanIntel';
 import { UserProfile } from '@/context/AuthContext';
+import { CloudLoadingScreen } from '@/components/CloudLoadingScreen';
 
 import { chatApi, clanApi } from '@/lib/api';
 
 export default function ChatsPage() {
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [activeRecipient, setActiveRecipient] = useState<UserProfile | null>(null);
+
+  // Cloud screen transition before showing chat interface
+  const [showCloudOverlay, setShowCloudOverlay] = useState<boolean>(true);
+  const [isCloudFading, setIsCloudFading] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Cloud transition effect when user logs in / opens chat interface
+    const timerFade = setTimeout(() => {
+      setIsCloudFading(true);
+    }, 1200);
+
+    const timerRemove = setTimeout(() => {
+      setShowCloudOverlay(false);
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('coc_cloud_transition');
+      }
+    }, 1900);
+
+    return () => {
+      clearTimeout(timerFade);
+      clearTimeout(timerRemove);
+    };
+  }, []);
 
   useEffect(() => {
     // Auto-open clan chat if clanId URL parameter exists
@@ -53,6 +77,12 @@ export default function ChatsPage() {
 
   return (
     <AuthProtected>
+      {showCloudOverlay && (
+        <CloudLoadingScreen
+          message="ENTERING CHAT INTERFACE..."
+          isFading={isCloudFading}
+        />
+      )}
       <div className="h-screen max-h-screen overflow-hidden bg-background text-on-background flex flex-col select-none">
         <NavigationHeader />
 

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { userApi } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
+import { useAudio } from '@/context/AudioContext';
 import { sfx } from '@/lib/sfx';
 import { BannerCropperModal } from '@/components/BannerCropperModal';
 
@@ -31,6 +32,7 @@ const BANNER_PATTERNS = [
 
 export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, onClose }) => {
   const { user, updateUser } = useAuth();
+  const { isPlaying, toggleMusic, isSfxEnabled, toggleSfx } = useAudio();
 
   const [username, setUsername] = useState('');
   const [avatar, setAvatar] = useState('Chieftain');
@@ -343,6 +345,29 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
               rows={3}
               className="w-full bg-[#FFFDF6] border-2 border-[#895333] rounded-xl p-3 font-body-md text-body-md text-[#24140D] placeholder:text-[#9A7D69] focus:outline-none focus:border-[#C88421] shadow-inner"
             />
+          </div>
+
+          {/* Sound & Audio Preferences Section */}
+          <div className="p-3.5 rounded-2xl bg-[#FFFDF6] border-2 border-[#C89437] flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#895333] text-lg">volume_up</span>
+                <span className="font-label-md text-xs text-[#5B3317] uppercase font-black">
+                  UI TAP SOUND EFFECTS (CoC POP SFX)
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={toggleSfx}
+                className={`px-4 py-1.5 rounded-lg font-label-sm text-xs font-black uppercase transition-all cursor-pointer ${
+                  isSfxEnabled
+                    ? 'bg-[#4E8B3A] text-white shadow-sm'
+                    : 'bg-[#C62828] text-white shadow-sm'
+                }`}
+              >
+                {isSfxEnabled ? 'SOUND ON' : 'SOUND MUTED'}
+              </button>
+            </div>
           </div>
 
           {/* Footer Actions */}

@@ -6,7 +6,7 @@ import { useAuth, UserProfile } from '@/context/AuthContext';
 import { useSocket } from '@/context/SocketContext';
 import { sfx } from '@/lib/sfx';
 import { WarHornModal } from '@/components/WarHornModal';
-import { STICKERS } from '@/lib/stickers';
+import { STICKERS, formatStickerOrText } from '@/lib/stickers';
 import { UserProfileModal } from '@/components/UserProfileModal';
 
 interface ChatStageProps {
@@ -79,6 +79,24 @@ export const ChatStage: React.FC<ChatStageProps> = ({ conversationId, recipient 
   const [isHeaderMenuOpen, setIsHeaderMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [chatWallpaper, setChatWallpaper] = useState<string>('default');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('coc_chat_wallpaper') || 'default';
+      setChatWallpaper(saved);
+
+      const handleWallpaperChange = (e: any) => {
+        const wp = e.detail || localStorage.getItem('coc_chat_wallpaper') || 'default';
+        setChatWallpaper(wp);
+      };
+
+      window.addEventListener('coc_wallpaper_change', handleWallpaperChange);
+      return () => {
+        window.removeEventListener('coc_wallpaper_change', handleWallpaperChange);
+      };
+    }
+  }, []);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -95,13 +113,9 @@ export const ChatStage: React.FC<ChatStageProps> = ({ conversationId, recipient 
 
   const handleStartReply = (msg: any, senderName: string) => {
     sfx.playClick();
-    let textSnippet = msg.text || '';
-    if (textSnippet.startsWith('/stickers/')) {
-      textSnippet = '🎨 [Sticker Emote]';
-    }
     setReplyingToMessage({
       _id: msg._id,
-      text: textSnippet,
+      text: formatStickerOrText(msg.text),
       senderName,
     });
   };
@@ -539,7 +553,20 @@ export const ChatStage: React.FC<ChatStageProps> = ({ conversationId, recipient 
     : Boolean(recipient?._id && onlineUsers.some((uid: string) => String(uid) === String(recipient._id)));
 
   return (
-    <main className="flex-1 flex flex-col bg-[#FFFDF9] border-2 border-[#895333] rounded-2xl shadow-[0_6px_18px_rgba(89,53,28,0.14)] overflow-hidden">
+    <main className="flex-1 flex flex-col bg-[#FFFDF9] border-2 border-[#895333] rounded-2xl shadow-[0_6px_18px_rgba(89,53,28,0.14)] overflow-hidden relative">
+
+      {/* Stationary Fixed Wallpaper Layer */}
+      {chatWallpaper && chatWallpaper !== 'default' && chatWallpaper !== '' && (
+        <div
+          className="absolute inset-0 pointer-events-none z-0 transition-all duration-300"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)), url("${chatWallpaper}")`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+      )}
 
       {/* Stage Banner Header */}
       <div className="px-4 py-3 bg-gradient-to-b from-[#FBF2E5] to-[#F5E6D3] border-b-2 border-[#895333] flex items-center justify-between shadow-sm z-10 relative">
@@ -687,7 +714,13 @@ export const ChatStage: React.FC<ChatStageProps> = ({ conversationId, recipient 
       </div>
 
       {/* Live Chat Theatre Log Stream */}
-      <div className="flex-1 overflow-y-auto p-4 xl:p-5 flex flex-col gap-4 bg-[#FBF7F0] shadow-[inset_0_2px_8px_rgba(100,60,30,0.06)] min-h-[400px]">
+      <div
+        className={`flex-1 overflow-y-auto p-4 xl:p-5 flex flex-col gap-4 shadow-[inset_0_2px_8px_rgba(100,60,30,0.06)] min-h-[400px] relative z-10 transition-all ${
+          chatWallpaper && chatWallpaper !== 'default' && chatWallpaper !== ''
+            ? 'bg-transparent'
+            : 'bg-[#FBF7F0]'
+        }`}
+      >
 
         {loading ? (
           <div className="text-center p-8 text-[#8A6348] animate-pulse font-body-sm font-bold">
@@ -803,7 +836,7 @@ export const ChatStage: React.FC<ChatStageProps> = ({ conversationId, recipient 
                           {msg.replyTo.senderName}
                         </span>
                         <span className="truncate italic opacity-90 max-w-xs sm:max-w-sm">
-                          {msg.replyTo.text}
+                          {formatStickerOrText(msg.replyTo.text)}
                         </span>
                       </div>
                     )}
@@ -1136,7 +1169,7 @@ export const ChatStage: React.FC<ChatStageProps> = ({ conversationId, recipient 
             <div className="flex items-center gap-2 truncate">
               <span className="material-symbols-outlined text-base text-[#C88421]">reply</span>
               <span className="truncate">
-                Replying to <strong className="text-[#24140D] font-black">{replyingToMessage.senderName}</strong>: &quot;{replyingToMessage.text}&quot;
+                Replying to <strong className="text-[#24140D] font-black">{replyingToMessage.senderName}</strong>: &quot;{formatStickerOrText(replyingToMessage.text)}&quot;
               </span>
             </div>
             <button
